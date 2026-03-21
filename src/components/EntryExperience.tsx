@@ -116,7 +116,7 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h1 className="text-5xl md:text-8xl font-display font-black tracking-tighter uppercase italic leading-[0.85] pb-2">
+          <h1 className="text-5xl md:text-8xl font-display font-black tracking-tighter uppercase italic leading-[0.85] pb-2 pr-4">
             Braeden Boyles
           </h1>
           <p className="text-brand-muted uppercase tracking-[0.4em] text-[10px] md:text-xs mt-4 font-bold">
@@ -164,10 +164,10 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                   key="football"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="relative flex items-end justify-center w-full h-full"
+                  className="relative flex items-center justify-center w-full h-full"
                 >
                   {/* Wind Indicator */}
-                  <div className="absolute top-0 right-0 glass px-4 py-2 rounded-lg">
+                  <div className="absolute top-0 right-0 glass px-4 py-2 rounded-lg z-30">
                     <p className="text-[8px] uppercase tracking-widest text-brand-white/40 font-bold">Wind</p>
                     <div className="flex items-center space-x-2">
                       <div className={cn("w-2 h-2 rounded-full", wind > 0 ? "bg-red-500" : wind < 0 ? "bg-blue-500" : "bg-white/20")}></div>
@@ -176,13 +176,13 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                   </div>
 
                   {/* Uprights */}
-                  <div className="absolute bottom-20 flex justify-between w-48 h-40 border-x-4 border-brand-white/20 rounded-t-lg">
+                  <div className="absolute top-0 flex justify-between w-48 h-40 border-x-4 border-brand-white/20 rounded-t-lg">
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-12 bg-brand-white/20"></div>
                     <div className="absolute bottom-12 left-0 right-0 h-1 bg-brand-white/20"></div>
                   </div>
                   {/* Football */}
                   <motion.div
-                    className="cursor-pointer group relative z-20"
+                    className="cursor-pointer group relative z-20 mt-40"
                     onClick={handleAction}
                     animate={isAnimating ? { 
                       y: -240, 
