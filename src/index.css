@@ -27,8 +27,15 @@
   }
 
   /* Fix for italic text cutoff */
-  .italic {
-    @apply pr-[0.3em] overflow-visible inline-block;
+  .italic, i, em {
+    @apply pr-[0.5em] overflow-visible inline-block;
+    transform: skewX(0.001deg);
+  }
+
+  /* Specific fix for display headings with italics */
+  h1.italic, h2.italic, h3.italic,
+  h1 .italic, h2 .italic, h3 .italic {
+    @apply pr-[0.6em] mr-[-0.3em];
   }
 }
 

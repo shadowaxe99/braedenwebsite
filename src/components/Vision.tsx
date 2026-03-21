@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Scale, Shield, Users, Briefcase, Mail, Phone, Linkedin, MapPin, ArrowRight, FileText, ExternalLink, Activity, Zap, X } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { articles } from '../data/articles';
 
 export const Vision: React.FC = () => {
   const focusAreas = [
@@ -16,9 +17,9 @@ export const Vision: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="space-y-8">
-            <div className="space-y-4">
-              <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Trajectory</span>
-              <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none pr-2">
+            <div className="space-y-8">
+              <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">The Trajectory</span>
+              <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
                 The Next <br />
                 <span className="text-gradient">Chapter</span>
               </h2>
@@ -42,13 +43,13 @@ export const Vision: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-4 bg-brand-accent/10 rounded-2xl blur-2xl"></div>
-            <div className="relative glass p-12 rounded-2xl border-brand-accent/20 text-center space-y-8">
-              <div className="w-20 h-20 rounded-full bg-brand-accent/10 flex items-center justify-center mx-auto border border-brand-accent/20">
+          <div className="relative group">
+            <div className="absolute -inset-4 bg-brand-accent/10 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative glass p-12 rounded-2xl border-brand-accent/20 text-center space-y-8 group-hover:border-brand-accent/40 group-hover:bg-white/10 transition-all duration-500">
+              <div className="w-20 h-20 rounded-full bg-brand-accent/10 flex items-center justify-center mx-auto border border-brand-accent/20 group-hover:scale-110 transition-transform duration-500">
                 <Scale className="w-10 h-10 text-brand-accent" />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <h3 className="text-3xl font-display font-black uppercase tracking-tight leading-none">Duquesne Law</h3>
                 <p className="text-brand-accent text-xs font-bold uppercase tracking-widest">Juris Doctor Candidate</p>
               </div>
@@ -72,64 +73,13 @@ export const Writing: React.FC = () => {
   const [activeArticle, setActiveArticle] = React.useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const articles = [
-    { 
-      title: 'The Culture of Winning: Why Coaching Beats Drafting', 
-      source: 'Steeler Nation', 
-      date: '2025',
-      insight: 'Analyzing the 2025 paradigm shift where coaching hires like Vrabel, Johnson, Schottenheimer, and Coen proved that cultural transformation and offensive creativity drive wins faster than draft picks. The success of former #1 overall picks Caleb Williams and Trevor Lawrence under these new regimes highlights the critical role of leadership in maximizing elite talent.',
-      annotation: 'Strategic Leadership: Evidence of how elite playcalling and player motivation revitalize franchises and maximize QB potential.',
-      fullText: `The 2025 NFL season has officially marked the end of the 'Draft and Pray' era. For decades, NFL front offices operated under the assumption that a high draft pick was the only panacea for a losing culture. However, the recent success of franchises that prioritized elite coaching over raw draft capital has shattered this myth.\n\nThe paradigm shift is led by a new wave of strategic minds: Mike Vrabel, Ben Johnson, Brian Schottenheimer, and Liam Coen. These coaches didn't just inherit talent; they manufactured it through cultural transformation and offensive creativity.\n\nLook no further than the resurgence of Caleb Williams and Trevor Lawrence. Both were former #1 overall picks who were widely labeled as 'busts' or 'underperformers' under previous regimes. Yet, under the guidance of this new coaching class, they have transformed into the elite playmakers they were projected to be. This highlights a critical truth in modern sports: leadership is the ultimate force multiplier.\n\nIn the high-stakes world of professional football, a draft pick is a lottery ticket, but a world-class coach is an investment. The teams that understand this are the ones hoisting trophies while others are still 'rebuilding' with their next top-five pick.`
-    },
-    { 
-      title: 'The Integrity Crisis: Betting’s Existential Threat', 
-      source: 'Steeler Nation', 
-      date: '2025',
-      insight: 'Examining the existential threat posed by betting scandals like those involving Jontay Porter and Terry Rozier. As sports betting revenue grows by 25% annually, the \'impregnable wall\' between gambling and sports is eroding, threatening the core integrity of competitive athletics and the faith of fans.',
-      annotation: 'Legal & Ethics: A critical look at the tension between revenue growth and the \'law of unintended consequences\' in the sports-betting juggernaut.',
-      fullText: `Sports betting was supposed to be the golden goose for professional leagues—a multi-billion dollar revenue stream that would deepen fan engagement and modernize the viewing experience. Instead, it has become an existential threat to the very integrity of the games themselves.\n\nThe recent scandals involving Jontay Porter and Terry Rozier are not outliers; they are the inevitable result of a system that has allowed the 'impregnable wall' between gambling and sports to erode. As sports betting revenue grows at a staggering 25% annually, the financial incentives for athletes, officials, and staff to manipulate outcomes have reached a fever pitch.\n\nThe 'law of unintended consequences' is in full effect. By normalizing betting within the broadcast and the stadium, leagues have created a environment where the line between a fan and a gambler is non-existent. This threatens the core faith of the audience. If the public begins to believe that the outcomes are scripted or influenced by betting lines, the entire sports ecosystem collapses.\n\nLeagues must act now to rebuild the wall. This means stricter regulations, absolute transparency, and a decoupling of betting advertisements from the live game experience. Integrity is the only product sports truly sells; once it's gone, no amount of betting revenue can buy it back.`
-    },
-    { 
-      title: 'The Evolution of the Modern Quarterback', 
-      source: 'Steeler Nation', 
-      date: '2024',
-      insight: 'Analyzing how the shift toward mobile, dual-threat QBs impacts contract structures and injury risk mitigation in modern representation.',
-      annotation: 'Strategic Analysis: Focuses on the intersection of performance metrics and long-term financial security for elite athletes.',
-      fullText: `The modern NFL quarterback is no longer just a passer; they are a dual-threat weapon that requires a completely different approach to representation and contract structuring. As the league shifts toward mobile QBs like Lamar Jackson and Jalen Hurts, the traditional 'pocket passer' contract is becoming obsolete.\n\nFrom a representation standpoint, this shift introduces new variables: increased injury risk, shorter career longevity, and the need for creative incentive structures that reward rushing production without compromising long-term security. We are seeing a rise in 'guaranteed-heavy' deals that protect athletes against the physical toll of the dual-threat style.\n\nFurthermore, the marketing of these athletes has evolved. A mobile QB is often a more dynamic brand asset, allowing for partnerships that span beyond traditional sports categories. The agent of the future must be as adept at analyzing rushing metrics as they are at negotiating signing bonuses.`
-    },
-    { 
-      title: 'NIL and the Future of Collegiate Athletics', 
-      source: 'Steeler Nation', 
-      date: '2024',
-      insight: 'A deep dive into the regulatory landscape of NIL and how athletes can build sustainable brands while maintaining NCAA compliance.',
-      annotation: 'Legal Perspective: Examines the emerging case law and state-level legislation governing athlete compensation.',
-      fullText: `The Name, Image, and Likeness (NIL) era has fundamentally transformed collegiate athletics, turning student-athletes into professional entrepreneurs overnight. However, this 'Wild West' landscape is fraught with legal pitfalls and regulatory uncertainty.\n\nNavigating NIL requires a multi-faceted approach. Athletes must not only secure lucrative deals but also ensure they remain in compliance with a patchwork of state laws and ever-evolving NCAA guidelines. The role of the advisor has shifted from mere recruiter to a combination of legal counsel, brand manager, and financial planner.\n\nThe future of NIL likely involves a federal standard to provide consistency across the country. Until then, the most successful athletes will be those who build sustainable, long-term brands rather than chasing short-term cash grabs. Integrity and compliance are the foundations of a successful NIL portfolio.`
-    },
-    { 
-      title: 'Strategic Preparation in High-Stakes Moments', 
-      source: 'Steeler Nation', 
-      date: '2024',
-      insight: 'Translating the discipline of the film room into the precision of the boardroom during high-stakes negotiations.',
-      annotation: 'Leadership Lens: Connects the mental preparation of a QB to the tactical execution of a sports agent.',
-      fullText: `A quarterback's preparation for a Saturday afternoon game is remarkably similar to an agent's preparation for a high-stakes contract negotiation. Both require hours of 'film study'—analyzing the opponent's tendencies, identifying leverage points, and scripting the opening moves.\n\nIn the boardroom, the 'film' consists of market data, salary cap projections, and the other party's negotiation history. Just as a QB must recognize a blitz and adjust the protection, an agent must recognize a low-ball offer and pivot the strategy in real-time. Composure under pressure is the common thread.\n\nThe discipline of preparation is what separates the elite from the average. When the stakes are highest, you don't rise to the occasion; you sink to the level of your training. Whether it's a two-minute drill or a final offer deadline, outcomes are decided long before the clock starts.`
-    },
-    { 
-      title: 'The Intersection of Media and Representation', 
-      source: 'Steeler Nation', 
-      date: '2024',
-      insight: 'How narrative control and media fluency are becoming the most valuable assets in an athlete’s professional portfolio.',
-      annotation: 'Branding Insight: Discusses the role of the agent as a strategic communications consultant.',
-      fullText: `In the digital age, an athlete's narrative is as important as their performance on the field. Media fluency is no longer an optional skill; it is a core requirement for any professional athlete seeking to maximize their value.\n\nRepresentation today involves active narrative management. This means controlling the story before it controls you. Whether it's navigating a crisis or launching a new venture, the agent acts as a strategic communications consultant, ensuring the athlete's voice is heard clearly and authentically.\n\nSocial media has democratized the ability to build a brand, but it has also increased the risks. One misstep can derail years of brand building. The intersection of media and representation is where the most significant value is created in the modern sports industry. A well-managed brand is an insurance policy against the inevitable decline of athletic performance.`
-    }
-  ];
-
   return (
     <section id="writing" className="py-24 bg-brand-black relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-          <div className="space-y-4">
-            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">Game Tape</span>
-            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic pr-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+          <div className="space-y-8">
+            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">Game Tape</span>
+            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
               Writing & <br />
               <span className="text-gradient">Insights</span>
             </h2>
@@ -142,7 +92,7 @@ export const Writing: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Article List */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="lg:col-span-5 space-y-4 max-h-[600px] overflow-y-auto pr-4 custom-scrollbar">
             {articles.map((article, index) => (
               <button 
                 key={article.title}
@@ -202,7 +152,7 @@ export const Writing: React.FC = () => {
                         <Zap className="w-5 h-5" />
                         <span className="text-xs font-bold uppercase tracking-[0.2em]">Film Room Breakdown</span>
                       </div>
-                      <h3 className="text-3xl md:text-4xl font-display font-black uppercase tracking-tight leading-none italic pr-8">
+                      <h3 className="text-3xl md:text-4xl font-display font-black uppercase tracking-tight leading-none italic">
                         {articles[activeArticle].title}
                       </h3>
                     </div>
@@ -214,6 +164,21 @@ export const Writing: React.FC = () => {
                           {articles[activeArticle].insight}
                         </p>
                       </div>
+
+                      {/* Key Quote Preview */}
+                      {articles[activeArticle].keyQuotes && articles[activeArticle].keyQuotes.length > 0 && (
+                        <div className="relative group">
+                          <div className="absolute -inset-1 bg-gradient-to-r from-brand-accent/20 to-transparent rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                          <div className="relative p-6 bg-white/5 border border-white/10 rounded-xl">
+                            <div className="flex items-start space-x-4">
+                              <span className="text-4xl font-serif text-brand-accent leading-none opacity-50">“</span>
+                              <p className="text-sm text-brand-white/80 italic leading-relaxed pt-2">
+                                {articles[activeArticle].keyQuotes[0]}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="p-6 bg-brand-accent/5 border-l-4 border-brand-accent rounded-r-xl italic">
                         <p className="text-sm text-brand-accent leading-relaxed">
@@ -271,7 +236,7 @@ export const Writing: React.FC = () => {
                       <FileText className="w-4 h-4" />
                       <span className="text-[10px] font-bold uppercase tracking-widest">{articles[activeArticle].source} | {articles[activeArticle].date}</span>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-tight italic pr-8">
+                    <h3 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-tight italic">
                       {articles[activeArticle].title}
                     </h3>
                   </div>
@@ -284,15 +249,42 @@ export const Writing: React.FC = () => {
                 </div>
                 
                 <div className="p-8 md:p-12 overflow-y-auto custom-scrollbar">
-                  <div className="max-w-2xl mx-auto space-y-8">
+                  <div className="max-w-2xl mx-auto space-y-12">
+                    {/* Key Quotes Section */}
+                    {articles[activeArticle].keyQuotes && articles[activeArticle].keyQuotes.length > 0 && (
+                      <div className="grid grid-cols-1 gap-6">
+                        {articles[activeArticle].keyQuotes.map((quote, i) => (
+                          <div key={i} className="relative p-8 bg-brand-accent/5 border border-brand-accent/20 rounded-2xl group overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                              <Zap className="w-16 h-16 text-brand-accent" />
+                            </div>
+                            <div className="relative z-10 space-y-4">
+                              <span className="text-5xl font-serif text-brand-accent leading-none opacity-30 block -mb-4">“</span>
+                              <p className="text-xl text-brand-white font-light italic leading-relaxed">
+                                {quote}
+                              </p>
+                              <div className="flex items-center space-x-2">
+                                <div className="h-[1px] w-8 bg-brand-accent/40"></div>
+                                <span className="text-[8px] font-bold uppercase tracking-[0.3em] text-brand-accent/60">Key Takeaway</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     <div className="p-6 bg-brand-accent/5 border-l-4 border-brand-accent rounded-r-xl italic">
                       <p className="text-sm text-brand-accent leading-relaxed">
                         {articles[activeArticle].annotation}
                       </p>
                     </div>
                     
-                    <div className="space-y-6 text-brand-white/80 text-lg font-light leading-relaxed whitespace-pre-line">
-                      {articles[activeArticle].fullText}
+                    <div className="space-y-8 text-brand-white/80 text-lg font-light leading-relaxed">
+                      {articles[activeArticle].fullText.split('\n\n').map((paragraph, i) => (
+                        <p key={i} className="first-letter:text-2xl first-letter:font-display first-letter:text-brand-accent first-letter:mr-1">
+                          {paragraph}
+                        </p>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -312,9 +304,9 @@ export const Writing: React.FC = () => {
 
         {/* What I See That Others Miss */}
         <div className="mt-32 space-y-12">
-          <div className="text-center space-y-4">
-            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Edge</span>
-            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic pr-8">
+          <div className="text-center space-y-8">
+            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">The Edge</span>
+            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
               What I See That <br />
               <span className="text-gradient">Others Miss</span>
             </h2>
@@ -361,9 +353,9 @@ export const Contact: React.FC = () => {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Connection</span>
-                <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none pr-8">
+                <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
                   Let's <br />
                   <span className="text-gradient">Connect</span>
                 </h2>
@@ -376,30 +368,30 @@ export const Contact: React.FC = () => {
 
               <div className="space-y-6 pt-8">
                 <a href="mailto:Braedenboyles1@gmail.com" className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black transition-all duration-500">
+                  <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black group-hover:scale-110 transition-all duration-500">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40">Email</p>
-                    <p className="text-lg font-display font-bold uppercase tracking-tight">Braedenboyles1@gmail.com</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40 mb-1">Email</p>
+                    <p className="text-lg font-display font-bold uppercase tracking-tight group-hover:text-brand-accent transition-colors">Braedenboyles1@gmail.com</p>
                   </div>
                 </a>
                 <a href="tel:9495008929" className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black transition-all duration-500">
+                  <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black group-hover:scale-110 transition-all duration-500">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40">Phone</p>
-                    <p className="text-lg font-display font-bold uppercase tracking-tight">(949) 500-8929</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40 mb-1">Phone</p>
+                    <p className="text-lg font-display font-bold uppercase tracking-tight group-hover:text-brand-accent transition-colors">(949) 500-8929</p>
                   </div>
                 </a>
                 <a href="https://linkedin.com/in/Braeden-Boyles" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-4 group">
-                  <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black transition-all duration-500">
+                  <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black group-hover:scale-110 transition-all duration-500">
                     <Linkedin className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40">LinkedIn</p>
-                    <p className="text-lg font-display font-bold uppercase tracking-tight">linkedin.com/in/Braeden-Boyles</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40 mb-1">LinkedIn</p>
+                    <p className="text-lg font-display font-bold uppercase tracking-tight group-hover:text-brand-accent transition-colors">linkedin.com/in/Braeden-Boyles</p>
                   </div>
                 </a>
               </div>

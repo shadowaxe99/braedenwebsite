@@ -18,11 +18,12 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
+              className="space-y-8"
             >
-              <span className="inline-block px-4 py-1 rounded-full border border-brand-accent/20 bg-brand-accent/5 text-brand-accent text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
+              <span className="inline-block px-4 py-1 rounded-full border border-brand-accent/20 bg-brand-accent/5 text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] mb-4">
                 Future Sports Lawyer & Agent
               </span>
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black tracking-tighter uppercase italic leading-[0.9] pr-8">
+              <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black tracking-tighter uppercase italic leading-[0.9]">
                 Braeden <br />
                 <span className="text-gradient">Boyles</span>
               </h1>
@@ -68,7 +69,7 @@ export const Hero: React.FC = () => {
               className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 group"
             >
               <img 
-                src="https://picsum.photos/seed/braeden-professional/800/1200" 
+                src="https://picsum.photos/seed/braeden-professional/600/900" 
                 alt="Braeden Boyles Professional Portrait" 
                 className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"

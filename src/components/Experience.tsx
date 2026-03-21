@@ -51,10 +51,10 @@ export const Experience: React.FC = () => {
   return (
     <section id="experience" className="py-24 bg-brand-black relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-          <div className="space-y-4">
-            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Evidence</span>
-            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic pr-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+          <div className="space-y-8">
+            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">The Evidence</span>
+            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
               Professional <br />
               <span className="text-gradient">Exposure</span>
             </h2>
@@ -81,7 +81,7 @@ export const Experience: React.FC = () => {
                     <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black transition-all duration-500">
                       <exp.icon className="w-6 h-6" />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                       <h3 className="text-2xl font-display font-bold uppercase tracking-tight">{exp.company}</h3>
                       <p className="text-brand-accent text-xs font-bold uppercase tracking-widest">{exp.role}</p>
                     </div>
@@ -139,9 +139,9 @@ export const LensGrid: React.FC = () => {
   return (
     <section className="py-24 bg-brand-black relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="text-center space-y-4 mb-20">
-          <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Value</span>
-          <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic pr-8">
+        <div className="text-center space-y-8 mb-24">
+          <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">The Value</span>
+          <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
             Braeden's <br />
             <span className="text-gradient">Lens</span>
           </h2>
@@ -207,9 +207,9 @@ export const QBMindModule: React.FC = () => {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
-              <div className="space-y-4">
-                <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Mental Game</span>
-                <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none pr-8">
+              <div className="space-y-8">
+                <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">The Mental Game</span>
+                <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
                   Inside the <br />
                   <span className="text-gradient">QB Mind</span>
                 </h2>
@@ -261,17 +261,17 @@ export const QBMindModule: React.FC = () => {
                   animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                   exit={{ opacity: 0, scale: 0.9, rotateY: 20 }}
                   transition={{ duration: 0.5 }}
-                  className="glass p-8 md:p-12 rounded-2xl space-y-8 w-full shadow-2xl border-brand-accent/20"
+                  className="glass p-8 md:p-12 rounded-2xl space-y-8 w-full shadow-2xl border-brand-accent/20 hover:border-brand-accent/40 transition-colors"
                 >
                   <div className="space-y-6">
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <p className="text-[10px] uppercase tracking-widest font-bold text-brand-accent">On the Field</p>
                       <p className="text-lg text-brand-white font-light leading-relaxed italic">
                         "{scenarios[activeScenario].qbAction}"
                       </p>
                     </div>
                     <div className="h-[1px] w-full bg-white/10"></div>
-                    <div className="space-y-2">
+                    <div className="space-y-4">
                       <p className="text-[10px] uppercase tracking-widest font-bold text-brand-accent">In the Agency</p>
                       <p className="text-lg text-brand-white font-light leading-relaxed italic">
                         "{scenarios[activeScenario].agentAction}"

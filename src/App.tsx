@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { Analytics } from '@vercel/analytics/react';
 import { EntryExperience } from './components/EntryExperience';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -12,6 +13,9 @@ const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
       
@@ -66,6 +70,7 @@ export default function App() {
   return (
     <div className="bg-brand-black text-brand-white min-h-screen overflow-x-hidden">
       <CustomCursor />
+      <Analytics />
       <AnimatePresence mode="wait">
         {!hasEntered ? (
           <EntryExperience 

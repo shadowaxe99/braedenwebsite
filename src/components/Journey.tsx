@@ -52,10 +52,10 @@ export const Journey: React.FC = () => {
   return (
     <section id="journey" className="py-24 bg-brand-black relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
-          <div className="space-y-4">
-            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Narrative</span>
-            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic pr-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+          <div className="space-y-8">
+            <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">The Narrative</span>
+            <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
               From Quarterback <br />
               <span className="text-gradient">To Advocate</span>
             </h2>
@@ -88,8 +88,8 @@ export const Journey: React.FC = () => {
                     )}>
                       <event.icon className="w-5 h-5" />
                     </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40 mb-1">{event.period}</p>
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40">{event.period}</p>
                       <h3 className={cn(
                         "text-lg font-display font-bold uppercase tracking-tight",
                         activeEvent.id === event.id ? "text-brand-white" : "text-brand-white/60 group-hover:text-brand-white"
@@ -158,9 +158,9 @@ export const About: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="space-y-8">
-            <div className="space-y-4">
-              <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.3em]">The Identity</span>
-              <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic pr-8">
+            <div className="space-y-8">
+              <span className="text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] block mb-4">The Identity</span>
+              <h2 className="text-4xl md:text-6xl font-display font-black tracking-tighter uppercase italic leading-none">
                 More Than <br />
                 <span className="text-gradient">A Resume</span>
               </h2>
@@ -182,31 +182,31 @@ export const About: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-8 pt-8 border-t border-white/10">
-              <div>
+              <div className="space-y-2 group/edu">
                 <p className="text-[10px] uppercase tracking-widest font-bold text-brand-accent mb-2">Education</p>
-                <p className="text-sm font-bold uppercase tracking-tight">Benedictine College</p>
+                <p className="text-sm font-bold uppercase tracking-tight group-hover/edu:text-brand-accent transition-colors">Benedictine College</p>
                 <p className="text-xs text-brand-white/40">B.A. Marketing, May 2025</p>
-                <p className="text-xs text-brand-white/40">GPA: 3.30 | Dean's & President's List</p>
+                <p className="text-xs text-brand-white/40">Dean's & President's List</p>
               </div>
-              <div>
+              <div className="space-y-2 group/next">
                 <p className="text-[10px] uppercase tracking-widest font-bold text-brand-accent mb-2">Next Chapter</p>
-                <p className="text-sm font-bold uppercase tracking-tight">Duquesne Law School</p>
+                <p className="text-sm font-bold uppercase tracking-tight group-hover/next:text-brand-accent transition-colors">Duquesne Law School</p>
                 <p className="text-xs text-brand-white/40">Juris Doctor Candidate</p>
                 <p className="text-xs text-brand-white/40">Fall 2026 Enrollment</p>
               </div>
             </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-4 bg-brand-accent/10 rounded-2xl blur-2xl"></div>
+          <div className="relative group">
+            <div className="absolute -inset-4 bg-brand-accent/20 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             <div className="relative glass p-4 rounded-2xl overflow-hidden">
               <img 
-                src="https://picsum.photos/seed/braeden-qb-action/1000/1200" 
+                src="https://picsum.photos/seed/braeden-qb-action/600/800" 
                 alt="Braeden Boyles Action Shot" 
-                className="rounded-xl grayscale hover:grayscale-0 transition-all duration-700"
+                className="rounded-xl grayscale hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute bottom-12 right-12 flex flex-col items-end space-y-2">
+              <div className="absolute bottom-12 right-12 flex flex-col items-end space-y-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                 <div className="bg-brand-black/80 backdrop-blur-md px-6 py-3 rounded-full border border-white/10">
                   <p className="text-xs font-bold uppercase tracking-widest">Quarterback #8</p>
                 </div>

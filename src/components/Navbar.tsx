@@ -4,11 +4,11 @@ import { Menu, X, Linkedin, Mail, Phone, Gamepad2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const navItems = [
-  { name: 'Home', href: '#home' },
   { name: 'About', href: '#about' },
   { name: 'Journey', href: '#journey' },
   { name: 'Experience', href: '#experience' },
   { name: 'Vision', href: '#vision' },
+  { name: 'Insights', href: '#writing' },
   { name: 'Contact', href: '#contact' },
 ];
 
