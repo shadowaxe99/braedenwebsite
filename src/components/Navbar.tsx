@@ -1,230 +1,142 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import { Menu, X, Linkedin, Mail, Phone, Gamepad2 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { Menu, X, MousePointer2, Sun, Moon } from 'lucide-react';
-import { useCursor } from '../context/CursorContext';
-import { useTheme } from '../context/ThemeContext';
 
 const navItems = [
-  { name: 'About', path: '/about' },
-  { name: 'Experience', path: '/experience' },
-  { name: 'Writing', path: '/writing' },
-  { name: 'Press', path: '/press' },
-  { name: 'Contact', path: '/contact' },
+  { name: 'About', href: '#about' },
+  { name: 'Journey', href: '#journey' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Vision', href: '#vision' },
+  { name: 'Insights', href: '#writing' },
+  { name: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isCursorEnabled, setIsCursorEnabled } = useCursor();
-  const { isLightMode, setIsLightMode } = useTheme();
-  const location = useLocation();
+interface NavbarProps {
+  onGamesClick?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ onGamesClick }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.classList.add('mobile-nav-open');
-    } else {
-      document.body.classList.remove('mobile-nav-open');
-    }
-  }, [isMobileMenuOpen]);
-
-  const handleLogoClick = (e: React.MouseEvent) => {
-    if (location.pathname === '/') {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
   return (
-    <>
-    <nav
+    <nav 
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-500 py-6 px-6 md:px-12 flex justify-between items-center',
-        isScrolled ? 'bg-bg/80 backdrop-blur-xl border-b border-border py-4 shadow-lg' : 'bg-transparent'
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 md:px-12",
+        scrolled ? "py-4 bg-brand-black/80 backdrop-blur-md border-b border-white/10" : "py-8 bg-transparent"
       )}
     >
-      <Link 
-        to="/" 
-        onClick={handleLogoClick}
-        className="text-xl font-serif font-bold tracking-tight hover:text-accent transition-colors relative z-50 flex items-center gap-4"
-      >
-        <div className="flex items-center gap-2">
-          <span className="w-8 h-8 bg-accent rounded-full flex items-center justify-center text-bg text-xs font-mono">MG</span>
-          <span className="hidden sm:inline">Michael Gruen</span>
-        </div>
-        <div className="hidden xl:flex items-center gap-3 text-[8px] font-mono text-text-secondary uppercase tracking-[0.3em] border-l border-border pl-4">
-          <span>NY</span>
-          <div className="w-1 h-1 bg-accent/30 rounded-full" />
-          <span>LA</span>
-        </div>
-      </Link>
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <motion.a 
+          href="#home" 
+          className="text-xl font-display font-black tracking-tighter uppercase italic group pr-2"
+          whileHover={{ scale: 1.05 }}
+        >
+          <span className="text-brand-white group-hover:text-brand-accent transition-colors">B.</span>
+          <span className="text-brand-white/40 group-hover:text-brand-white transition-colors">Boyles</span>
+        </motion.a>
 
-      <div className="hidden md:flex gap-8 items-center">
-        {navItems.map((item) => (
-          <Link
-            key={item.name}
-            to={item.path}
-            className={cn(
-              'text-[10px] font-mono uppercase tracking-[0.2em] transition-all relative group',
-              location.pathname === item.path ? 'text-accent' : 'text-text-secondary hover:text-accent'
-            )}
-          >
-            {item.name}
-            <span
-              className={cn(
-                'absolute -bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full',
-                location.pathname === item.path && 'w-full'
-              )}
-            />
-          </Link>
-        ))}
-        
-        <div className="w-[1px] h-4 bg-border mx-2" />
-        
-        <div className="flex items-center gap-2">
-          <div className="relative group/theme">
-            <button
-              onClick={() => setIsLightMode(!isLightMode)}
-              className={cn(
-                "p-2 rounded-full transition-all hover:bg-text-primary/5",
-                isLightMode ? "text-accent" : "text-text-secondary"
-              )}
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center space-x-10">
+          {navItems.map((item) => (
+            <a 
+              key={item.name} 
+              href={item.href}
+              className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-white/60 hover:text-brand-white transition-colors relative group"
             >
-              {isLightMode ? <Moon size={16} /> : <Sun size={16} />}
-            </button>
-            <div className="absolute top-full right-0 mt-2 px-3 py-1 bg-bg border border-border text-[8px] font-mono uppercase tracking-widest text-text-secondary opacity-0 group-hover/theme:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-[60]">
-              {isLightMode ? "Dark Mode" : "Light Mode"}
-            </div>
-          </div>
-
-          <div className="relative group/cursor">
-            <button
-              onClick={() => setIsCursorEnabled(!isCursorEnabled)}
-              className={cn(
-                "p-2 rounded-full transition-all hover:bg-text-primary/5",
-                isCursorEnabled ? "text-accent" : "text-text-secondary"
-              )}
-            >
-              <MousePointer2 size={16} />
-            </button>
-            <div className="absolute top-full right-0 mt-2 px-3 py-1 bg-bg border border-border text-[8px] font-mono uppercase tracking-widest text-text-secondary opacity-0 group-hover/cursor:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-[60]">
-              {isCursorEnabled ? "Disable Custom Cursor" : "Enable Custom Cursor"}
-            </div>
-          </div>
-        </div>
-
-        <div className="w-[1px] h-4 bg-border mx-2" />
-        
-        <Link 
-          to="/" 
-          onClick={handleLogoClick}
-          className="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-bg text-xs font-mono hover:scale-110 transition-transform duration-300 shadow-lg shadow-accent/20"
-        >
-          MG
-        </Link>
-
-        <Link 
-          to="/cv" 
-          className="ml-4 px-6 py-2 border border-accent text-accent text-[10px] font-mono uppercase tracking-widest hover:bg-accent hover:text-bg transition-all duration-500 rounded-sm"
-        >
-          Resume
-        </Link>
-      </div>
-
-      {/* Mobile Controls */}
-      <div className="md:hidden flex items-center gap-2 relative z-50">
-        <button
-          onClick={() => setIsLightMode(!isLightMode)}
-          className={cn(
-            "p-2 rounded-full transition-all",
-            isLightMode ? "text-accent" : "text-text-secondary"
-          )}
-        >
-          {isLightMode ? <Moon size={18} /> : <Sun size={18} />}
-        </button>
-        <button
-          onClick={() => setIsCursorEnabled(!isCursorEnabled)}
-          className={cn(
-            "p-2 rounded-full transition-all",
-            isCursorEnabled ? "text-accent" : "text-text-secondary"
-          )}
-        >
-          <MousePointer2 size={18} />
-        </button>
-        <button 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="text-text-primary p-2"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-    </nav>
-    <AnimatePresence>
-      {isMobileMenuOpen && (
-        <motion.div 
-          initial={{ opacity: 0, x: '100%' }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: '100%' }}
-          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          className="fixed inset-0 bg-bg z-[60] flex flex-col items-center justify-start py-32 gap-8 md:hidden overflow-y-auto"
-        >
-          <div className="fixed inset-0 opacity-5 pointer-events-none -z-10">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent rounded-full blur-[120px]" />
-            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-accent rounded-full blur-[120px]" />
-          </div>
-
-          {navItems.map((item, i) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <Link
-                to={item.path}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={cn(
-                  'text-4xl font-serif transition-all relative group',
-                  location.pathname === item.path ? 'text-accent' : 'text-text-primary hover:text-accent'
-                )}
-              >
-                {item.name}
-                {location.pathname === item.path && (
-                  <motion.div 
-                    layoutId="mobile-nav-indicator"
-                    className="absolute -left-6 top-1/2 -translate-y-1/2 w-2 h-2 bg-accent rounded-full"
-                  />
-                )}
-              </Link>
-            </motion.div>
+              {item.name}
+              <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+            </a>
           ))}
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: navItems.length * 0.1 }}
-          >
-            <Link 
-              to="/cv" 
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="mt-8 inline-block px-10 py-4 border border-accent text-accent text-xs font-mono uppercase tracking-[0.3em] hover:bg-accent hover:text-bg transition-all duration-500 rounded-sm"
+          
+          {onGamesClick && (
+            <button 
+              onClick={onGamesClick}
+              className="flex items-center space-x-2 text-[10px] uppercase tracking-[0.3em] font-bold text-brand-accent hover:text-white transition-colors group"
             >
-              View Resume
-            </Link>
+              <Gamepad2 className="w-3 h-3 group-hover:animate-bounce" />
+              <span>Games</span>
+            </button>
+          )}
+
+          <div className="h-4 w-[1px] bg-white/10 mx-4"></div>
+          <div className="flex items-center space-x-4">
+            <a href="https://linkedin.com/in/Braeden-Boyles" target="_blank" rel="noopener noreferrer" className="text-brand-white/40 hover:text-brand-accent transition-colors">
+              <Linkedin className="w-4 h-4" />
+            </a>
+            <a href="mailto:Braedenboyles1@gmail.com" className="text-brand-white/40 hover:text-brand-accent transition-colors">
+              <Mail className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+
+        {/* Mobile Toggle */}
+        <button 
+          className="md:hidden text-brand-white p-2"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden absolute top-full left-0 right-0 bg-brand-black border-b border-white/10 overflow-hidden"
+          >
+            <div className="flex flex-col p-8 space-y-6">
+              {navItems.map((item) => (
+                <a 
+                  key={item.name} 
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="text-2xl font-display font-bold uppercase tracking-widest text-brand-white/60 hover:text-brand-white"
+                >
+                  {item.name}
+                </a>
+              ))}
+
+              {onGamesClick && (
+                <button 
+                  onClick={() => {
+                    setIsOpen(false);
+                    onGamesClick();
+                  }}
+                  className="flex items-center space-x-4 text-2xl font-display font-bold uppercase tracking-widest text-brand-accent"
+                >
+                  <Gamepad2 className="w-6 h-6" />
+                  <span>Play Games</span>
+                </button>
+              )}
+
+              <div className="flex items-center space-x-6 pt-6 border-t border-white/10">
+                <a href="https://linkedin.com/in/Braeden-Boyles" target="_blank" rel="noopener noreferrer" className="text-brand-white/60 hover:text-brand-accent">
+                  <Linkedin className="w-6 h-6" />
+                </a>
+                <a href="mailto:Braedenboyles1@gmail.com" className="text-brand-white/60 hover:text-brand-accent">
+                  <Mail className="w-6 h-6" />
+                </a>
+                <a href="tel:9495008929" className="text-brand-white/60 hover:text-brand-accent">
+                  <Phone className="w-6 h-6" />
+                </a>
+              </div>
+            </div>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-    </>
+        )}
+      </AnimatePresence>
+    </nav>
   );
-}
+};
