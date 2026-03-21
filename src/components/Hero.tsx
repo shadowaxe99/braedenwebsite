@@ -1,134 +1,73 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { ArrowRight, Trophy, Shield, Scale, Briefcase } from 'lucide-react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { Link } from 'react-router-dom';
 
-export const Hero: React.FC = () => {
+export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-brand-accent/5 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-brand-accent/5 rounded-full blur-[120px]"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-8 space-y-8">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="space-y-8"
-            >
-              <span className="inline-block px-4 py-1 rounded-full border border-brand-accent/20 bg-brand-accent/5 text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] mb-4">
-                Future Sports Lawyer & Agent
-              </span>
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black tracking-tighter uppercase italic leading-[0.9]">
-                Braeden <br />
-                <span className="text-gradient">Boyles</span>
-              </h1>
-            </motion.div>
-
-            <motion.p 
-              className="max-w-xl text-lg md:text-xl text-brand-white/60 font-light leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Positioned at the intersection of athlete advocacy, contract strategy, and sports business. 
-              A former quarterback bringing leadership, grit, and real-world representation experience to the next chapter of sports law.
-            </motion.p>
-
-            <motion.div 
-              className="flex flex-wrap gap-4 pt-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <a 
-                href="#experience" 
-                className="group flex items-center space-x-3 bg-brand-white text-brand-black px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all hover:bg-brand-accent hover:scale-105"
-              >
-                <span>View Experience</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a 
-                href="#contact" 
-                className="flex items-center space-x-3 border border-white/10 hover:border-brand-accent/40 px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all hover:bg-white/5"
-              >
-                <span>Connect</span>
-              </a>
-            </motion.div>
-          </div>
-
-          <div className="lg:col-span-4 hidden lg:block">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.6 }}
-              className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 group"
-            >
-              <img 
-                src="https://picsum.photos/seed/braeden-professional/600/900" 
-                alt="Braeden Boyles Professional Portrait" 
-                className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent opacity-60"></div>
-              <div className="absolute bottom-6 left-6 right-6 p-6 glass rounded-xl role-card-hover">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-brand-accent mb-2">Current Role</p>
-                <p className="text-sm font-display font-bold uppercase tracking-tight">Director of Special Projects</p>
-                <p className="text-xs text-brand-white/60">Steinberg Sports & Entertainment</p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Credibility Band */}
-        <motion.div 
-          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-white/10"
-          initial={{ opacity: 0, y: 40 }}
+    <section ref={containerRef} className="min-h-screen flex items-center px-6 md:px-12 pt-20 overflow-hidden">
+      <div className="max-w-5xl mx-auto w-full relative z-10">
+        <motion.div
+          style={{ opacity, scale, y }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-2xl"
         >
-          <div className="flex items-center space-x-4 group">
-            <div className="w-10 h-10 rounded-lg glass flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
-              <Trophy className="w-5 h-5 text-brand-accent" />
+          <h1 className="text-5xl md:text-8xl font-serif mb-8 leading-[1.1] tracking-tight animate-reveal">
+            Michael Gruen
+          </h1>
+          
+          <div className="space-y-6 mb-12">
+            <div className="flex items-center gap-4 text-accent text-[10px] font-mono uppercase tracking-[0.4em] mb-4">
+              <span>New York</span>
+              <div className="w-1 h-1 bg-accent/30 rounded-full" />
+              <span>Los Angeles</span>
+              <div className="w-1 h-1 bg-accent/30 rounded-full" />
+              <span>Palm Beach</span>
             </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest font-bold text-brand-white/40">Athletic Pedigree</p>
-              <p className="text-xs font-bold uppercase tracking-tight">Benedictine QB</p>
-            </div>
+            <p className="text-xl md:text-3xl text-text-primary font-serif italic leading-relaxed">
+              Building companies taught me how value is created.
+              <br />
+              <span className="text-accent">Law allows me to protect it.</span>
+            </p>
+            
+            <p className="text-text-secondary text-lg md:text-xl leading-relaxed font-light max-w-xl">
+              Strategic Advisor & Deal Architect. Transitioning into <span className="text-accent">structural law</span> to bridge the gap between entrepreneurial vision and institutional-grade execution.
+            </p>
           </div>
-          <div className="flex items-center space-x-4 group">
-            <div className="w-10 h-10 rounded-lg glass flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
-              <Briefcase className="w-5 h-5 text-brand-accent" />
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest font-bold text-brand-white/40">Industry Experience</p>
-              <p className="text-xs font-bold uppercase tracking-tight">Steinberg Sports</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4 group">
-            <div className="w-10 h-10 rounded-lg glass flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
-              <Scale className="w-5 h-5 text-brand-accent" />
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest font-bold text-brand-white/40">Legal Trajectory</p>
-              <p className="text-xs font-bold uppercase tracking-tight">Duquesne Law '29</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4 group">
-            <div className="w-10 h-10 rounded-lg glass flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
-              <Shield className="w-5 h-5 text-brand-accent" />
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-widest font-bold text-brand-white/40">Leadership</p>
-              <p className="text-xs font-bold uppercase tracking-tight">Raven Way Leader</p>
-            </div>
+          
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 md:gap-6">
+            <Link 
+              to="/experience" 
+              className="w-full sm:w-auto text-center px-10 py-4 bg-accent text-bg font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] hover:bg-text-primary transition-all duration-300 shadow-xl shadow-accent/10"
+            >
+              Experience
+            </Link>
+            <Link 
+              to="/contact" 
+              className="w-full sm:w-auto text-center px-10 py-4 border border-border text-text-primary font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] hover:border-accent transition-all duration-300"
+            >
+              Inquire
+            </Link>
+            <Link 
+              to="/cv" 
+              className="w-full sm:w-auto text-center px-10 py-4 border border-accent/30 text-accent font-mono text-[10px] md:text-xs uppercase tracking-[0.3em] hover:bg-accent/5 hover:border-accent transition-all duration-300 flex items-center justify-center gap-3"
+            >
+              Resume <span className="text-[10px]">→</span>
+            </Link>
           </div>
         </motion.div>
       </div>
     </section>
   );
-};
+}
