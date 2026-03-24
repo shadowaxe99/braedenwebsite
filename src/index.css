@@ -51,6 +51,10 @@
   clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
 
+.clip-path-home-plate {
+  clip-path: polygon(0% 40%, 50% 0%, 100% 40%, 100% 100%, 0% 100%);
+}
+
 .custom-cursor {
   @apply fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9999];
   will-change: transform;
@@ -88,4 +92,12 @@
 
 .perspective-1000 {
   perspective: 1000px;
+}
+
+.rotate-x-60 {
+  transform: rotateX(60deg);
+}
+
+.rotate-x-80 {
+  transform: rotateX(80deg);
 }

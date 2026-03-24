@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, Trophy, Target, Zap, Activity, MousePointer2 } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -31,7 +31,10 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
   const [isMissed, setIsMissed] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
   const [pitching, setPitching] = useState(false);
+  const [pitchStartTime, setPitchStartTime] = useState(0);
+  const [baseballResult, setBaseballResult] = useState<'hit' | 'miss' | null>(null);
   const [wind, setWind] = useState(0);
+  const pitchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowPrompt(true), 1500);
@@ -47,8 +50,58 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
   const handleAction = () => {
     if (isAnimating) return;
     
-    if (selectedSport === 'baseball' && !pitching) {
-      setPitching(true);
+    if (selectedSport === 'baseball') {
+      if (!pitching) {
+        setPitching(true);
+        setPitchStartTime(Date.now());
+        setBaseballResult(null);
+        
+        // Auto-miss if they don't swing
+        pitchTimeoutRef.current = setTimeout(() => {
+          setPitching((current) => {
+            if (current && !isAnimating) {
+              setIsMissed(true);
+              onResetStreak();
+              setTimeout(() => {
+                setIsMissed(false);
+                setPitching(false);
+              }, 1500);
+            }
+            return current;
+          });
+        }, 2000);
+        return;
+      }
+      
+      // Clear the auto-miss timeout since they swung
+      if (pitchTimeoutRef.current) {
+        clearTimeout(pitchTimeoutRef.current);
+        pitchTimeoutRef.current = null;
+      }
+      
+      const elapsed = (Date.now() - pitchStartTime) / 1000;
+      // Perfect timing window: 1.1s to 1.4s
+      const isHit = elapsed >= 1.1 && elapsed <= 1.4;
+      
+      setIsAnimating(true);
+      
+      if (isHit) {
+        setBaseballResult('hit');
+        setIsScored(true);
+        onScore();
+      } else {
+        setBaseballResult('miss');
+        setIsMissed(true);
+        onResetStreak();
+      }
+
+      setTimeout(() => {
+        setIsAnimating(false);
+        setIsScored(false);
+        setIsMissed(false);
+        setPitching(false);
+        setBaseballResult(null);
+      }, 2000);
       return;
     }
 
@@ -60,11 +113,8 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
       const goaliePos = Math.sin(Date.now() / 318) * 60;
       if (Math.abs(goaliePos) < 20) missed = true;
     } else if (selectedSport === 'baseball') {
-      // Baseball timing check: pitching takes 1.5s. 
-      // User should swing between 1.2s and 1.5s of pitching?
-      // This is hard to track without a timer.
-      // Let's use a simpler "random" miss for now or just a fixed timing.
-      missed = Math.random() > 0.7; // 30% chance to miss for now
+      // Handled in baseball specific logic above
+      return;
     }
 
     // Animation sequence
@@ -181,6 +231,14 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                     </div>
                   </div>
 
+                  {/* Hit Zone */}
+                  {!isAnimating && (
+                    <div 
+                      className="absolute inset-x-0 top-0 bottom-24 z-30 cursor-pointer" 
+                      onClick={handleAction}
+                    />
+                  )}
+
                   {/* Uprights */}
                   <div className="absolute top-0 flex justify-between w-48 h-40 border-x-4 border-brand-white/20 rounded-t-lg">
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-12 bg-brand-white/20"></div>
@@ -243,6 +301,15 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                       </div>
                     </div>
                   </div>
+
+                  {/* Hit Zone */}
+                  {!isAnimating && (
+                    <div 
+                      className="absolute inset-x-0 top-0 bottom-24 z-30 cursor-pointer" 
+                      onClick={handleAction}
+                    />
+                  )}
+
                   {/* Ball */}
                   <motion.div
                     className="cursor-pointer z-20 mt-40"
@@ -275,32 +342,74 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                   animate={{ opacity: 1, scale: 1 }}
                   className="relative flex items-center justify-center w-full h-full"
                 >
+                  {/* Baseball Field Perspective */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-full h-1 bg-white/5 absolute top-1/2 -translate-y-1/2 rotate-[15deg]"></div>
+                    <div className="w-full h-1 bg-white/5 absolute top-1/2 -translate-y-1/2 -rotate-[15deg]"></div>
+                  </div>
+
+                  {/* Strike Zone */}
+                  <div className="absolute bottom-20 w-32 h-40 border-2 border-white/10 rounded-lg flex items-center justify-center">
+                    <div className="absolute inset-0 bg-brand-accent/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="w-full h-[1px] bg-white/5 absolute top-1/3"></div>
+                    <div className="w-full h-[1px] bg-white/5 absolute top-2/3"></div>
+                    <div className="h-full w-[1px] bg-white/5 absolute left-1/3"></div>
+                    <div className="h-full w-[1px] bg-white/5 absolute left-2/3"></div>
+                  </div>
+
+                  {/* Hit Zone */}
+                  {!isAnimating && (
+                    <div 
+                      className="absolute inset-x-0 top-0 bottom-24 z-40 cursor-pointer" 
+                      onClick={handleAction}
+                    />
+                  )}
+
                   {/* Bat */}
                   <motion.div 
-                    className="absolute bottom-10 right-20 w-4 h-48 bg-amber-800 rounded-full rotate-45 origin-bottom z-30"
-                    animate={isAnimating ? { rotate: [-45, 60, -45] } : {}}
-                    transition={{ duration: 0.3 }}
-                  ></motion.div>
+                    className="absolute bottom-10 right-10 w-6 h-56 bg-gradient-to-b from-[#d4a76a] to-[#8b5e34] rounded-full origin-bottom z-30 shadow-2xl"
+                    style={{ rotate: -45 }}
+                    animate={isAnimating ? { 
+                      rotate: [-45, 90, -45],
+                      x: [0, -40, 0]
+                    } : {}}
+                    transition={{ duration: 0.4, ease: "circOut" }}
+                  >
+                    {/* Bat Grip */}
+                    <div className="absolute bottom-0 left-0 right-0 h-16 bg-black/40 rounded-b-full"></div>
+                  </motion.div>
                   
-                  {/* Pitcher (Background) */}
-                  <div className="absolute top-10 w-4 h-12 bg-white/10 rounded-full"></div>
+                  {/* Pitcher Mound (Background) */}
+                  <div className="absolute top-10 w-20 h-10 bg-white/5 rounded-full blur-sm"></div>
+                  <div className="absolute top-8 w-4 h-12 bg-white/20 rounded-full"></div>
                   
                   {/* Ball */}
                   <motion.div
                     className="cursor-pointer z-20"
-                    onClick={() => {
-                      if (!pitching) {
-                        setPitching(true);
-                      } else {
-                        handleAction();
-                      }
-                    }}
+                    onClick={handleAction}
                     animate={
-                      isAnimating 
-                        ? { x: 600, y: -400, scale: 0.1, rotate: 360 } 
-                        : pitching 
-                          ? { y: [0, 150], scale: [0.2, 1], x: [0, -20, 20, 0] }
-                          : { y: 0, scale: 0.2 }
+                      isAnimating && baseballResult === 'hit'
+                        ? { 
+                            x: [0, 400], 
+                            y: [150, -600], 
+                            scale: [1, 0.1], 
+                            rotate: 720,
+                            opacity: [1, 1, 0]
+                          } 
+                        : isAnimating && baseballResult === 'miss'
+                          ? { 
+                              y: [150, 250], 
+                              scale: [1, 1.2], 
+                              opacity: [1, 0] 
+                            }
+                          : pitching 
+                            ? { 
+                                y: [0, 150], 
+                                scale: [0.2, 1], 
+                                x: [0, Math.sin(Date.now()) * 20, 0],
+                                rotate: 360
+                              }
+                            : { y: 0, scale: 0.2, opacity: 1 }
                     }
                     transition={
                       isAnimating 
@@ -310,13 +419,30 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                           : { duration: 0.5 }
                     }
                   >
-                    <div className="w-10 h-10 bg-white rounded-full border-2 border-gray-200 shadow-xl relative overflow-hidden">
-                      <div className="absolute top-0 left-1/2 w-0.5 h-full bg-red-500/30 rotate-45"></div>
-                      <div className="absolute top-0 left-1/2 w-0.5 h-full bg-red-500/30 -rotate-45"></div>
+                    <div className="w-12 h-12 bg-white rounded-full border-2 border-gray-200 shadow-2xl relative overflow-hidden">
+                      {/* Baseball Stitches */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-full h-full border-[3px] border-red-500/20 rounded-full scale-90 rotate-45"></div>
+                        <div className="w-full h-full border-[3px] border-red-500/20 rounded-full scale-90 -rotate-45"></div>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-tr from-black/10 to-transparent"></div>
                     </div>
-                    {!pitching && !isAnimating && <p className="absolute -top-12 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-red-500 font-bold whitespace-nowrap">Click to Pitch</p>}
-                    {pitching && !isAnimating && <p className="absolute -top-12 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-red-500 font-bold whitespace-nowrap">Click to Swing!</p>}
+                    
+                    {!pitching && !isAnimating && (
+                      <div className="absolute -top-16 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2">
+                        <p className="text-[10px] uppercase tracking-widest text-red-500 font-bold whitespace-nowrap">Click to Pitch</p>
+                        <div className="w-1 h-4 bg-red-500/20 rounded-full animate-bounce"></div>
+                      </div>
+                    )}
+                    {pitching && !isAnimating && (
+                      <div className="absolute -top-16 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2">
+                        <p className="text-[10px] uppercase tracking-widest text-brand-accent font-bold whitespace-nowrap animate-pulse">Swing Now!</p>
+                      </div>
+                    )}
                   </motion.div>
+
+                  {/* Home Plate */}
+                  <div className="absolute bottom-10 w-24 h-16 bg-white/10 clip-path-home-plate rotate-x-60"></div>
                 </motion.div>
               )}
 
@@ -339,6 +465,15 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                       <div className="absolute top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white/20"></div>
                     </motion.div>
                   </div>
+
+                  {/* Hit Zone */}
+                  {!isAnimating && (
+                    <div 
+                      className="absolute inset-x-0 top-0 bottom-24 z-30 cursor-pointer" 
+                      onClick={handleAction}
+                    />
+                  )}
+
                   {/* Puck */}
                   <motion.div
                     className="cursor-pointer z-20 mt-40"
@@ -370,6 +505,15 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                       </div>
                     </div>
                   </div>
+
+                  {/* Hit Zone */}
+                  {!isAnimating && (
+                    <div 
+                      className="absolute inset-x-0 top-0 bottom-24 z-30 cursor-pointer" 
+                      onClick={handleAction}
+                    />
+                  )}
+
                   {/* Ball */}
                   <motion.div
                     className="cursor-pointer z-20 mt-40"
