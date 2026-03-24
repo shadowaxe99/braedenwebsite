@@ -31,14 +31,21 @@ export const Vision: React.FC = () => {
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 border-t border-white/10">
-              {focusAreas.map((area) => (
-                <div key={area.title} className="space-y-2 group">
+              {focusAreas.map((area, index) => (
+                <motion.div 
+                  key={area.title} 
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="space-y-2 group"
+                >
                   <div className="flex items-center space-x-3">
                     <area.icon className="w-4 h-4 text-brand-accent group-hover:scale-110 transition-transform" />
                     <h4 className="text-sm font-bold uppercase tracking-tight">{area.title}</h4>
                   </div>
                   <p className="text-xs text-brand-white/40 leading-relaxed">{area.desc}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -327,13 +334,20 @@ export const Writing: React.FC = () => {
                 desc: 'Reading a defense is identical to reading a negotiation table. You have to anticipate the blitz, recognize the coverage, and know exactly when to take the shot.' 
               }
             ].map((item, i) => (
-              <div key={i} className="glass p-8 rounded-2xl space-y-4 group hover:border-brand-accent/40 transition-all">
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.2 }}
+                className="glass p-8 rounded-2xl space-y-4 group hover:border-brand-accent/40 transition-all"
+              >
                 <div className="w-10 h-10 rounded-lg bg-brand-accent/10 flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black transition-all">
                   <span className="font-display font-bold">0{i+1}</span>
                 </div>
                 <h4 className="text-xl font-display font-bold uppercase tracking-tight">{item.title}</h4>
                 <p className="text-sm text-brand-white/60 leading-relaxed">{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

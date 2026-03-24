@@ -69,9 +69,13 @@ export const Journey: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Timeline Navigation */}
           <div className="lg:col-span-5 space-y-4">
-            {timelineEvents.map((event) => (
-              <button
+            {timelineEvents.map((event, index) => (
+              <motion.button
                 key={event.id}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => setActiveEvent(event)}
                 className={cn(
                   "w-full text-left p-6 rounded-xl border transition-all duration-500 group relative overflow-hidden",
@@ -109,7 +113,7 @@ export const Journey: React.FC = () => {
                     className="absolute inset-0 bg-gradient-to-r from-brand-accent/5 to-transparent pointer-events-none"
                   />
                 )}
-              </button>
+              </motion.button>
             ))}
           </div>
 
@@ -197,7 +201,13 @@ export const About: React.FC = () => {
             </div>
           </div>
 
-          <div className="relative group">
+          <motion.div 
+            className="relative group"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <div className="absolute -inset-4 bg-brand-accent/20 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             <div className="relative glass p-4 rounded-2xl overflow-hidden">
               <img 
@@ -215,7 +225,7 @@ export const About: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -129,6 +129,21 @@ export const Hero: React.FC = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 opacity-50 hidden md:flex"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.5 }}
+        transition={{ delay: 1.5, duration: 1 }}
+      >
+        <span className="text-[8px] uppercase tracking-[0.3em] font-bold text-brand-white">Scroll</span>
+        <motion.div 
+          className="w-[1px] h-8 bg-gradient-to-b from-brand-accent to-transparent origin-top"
+          animate={{ scaleY: [0, 1, 0], translateY: [0, 8, 16] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </motion.div>
     </section>
   );
 };

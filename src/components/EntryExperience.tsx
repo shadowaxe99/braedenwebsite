@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, Trophy, Target, Zap, Activity } from 'lucide-react';
+import { ChevronRight, Trophy, Target, Zap, Activity, MousePointer2 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { Magnetic } from './Magnetic';
 
 interface EntryExperienceProps {
   onEnter: () => void;
@@ -9,6 +10,8 @@ interface EntryExperienceProps {
   streak: number;
   onScore: () => void;
   onResetStreak: () => void;
+  useCustomCursor?: boolean;
+  onToggleCursor?: () => void;
 }
 
 type Sport = 'football' | 'basketball' | 'baseball' | 'hockey' | 'golf';
@@ -18,7 +21,9 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
   score, 
   streak, 
   onScore, 
-  onResetStreak 
+  onResetStreak,
+  useCustomCursor,
+  onToggleCursor
 }) => {
   const [selectedSport, setSelectedSport] = useState<Sport | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -132,16 +137,17 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
             transition={{ delay: 0.5 }}
           >
             {sports.map((sport) => (
-              <button
-                key={sport.id}
-                onClick={() => handleSportChange(sport.id)}
-                className="glass p-6 rounded-2xl group hover:border-brand-accent/40 transition-all duration-500 flex flex-col items-center space-y-4"
-              >
-                <div className={cn("w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center transition-all duration-500 group-hover:scale-110", sport.color)}>
-                  <sport.icon className="w-6 h-6" />
-                </div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-brand-white/40 group-hover:text-brand-white">{sport.name}</span>
-              </button>
+              <Magnetic key={sport.id} strength={0.2}>
+                <button
+                  onClick={() => handleSportChange(sport.id)}
+                  className="glass p-6 rounded-2xl group hover:border-brand-accent/40 transition-all duration-500 flex flex-col items-center space-y-4 w-full"
+                >
+                  <div className={cn("w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center transition-all duration-500 group-hover:scale-110", sport.color)}>
+                    <sport.icon className="w-6 h-6" />
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest font-bold text-brand-white/40 group-hover:text-brand-white">{sport.name}</span>
+                </button>
+              </Magnetic>
             ))}
           </motion.div>
         ) : (
@@ -193,8 +199,25 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
                     } : { y: [0, -5, 0] }}
                     transition={isAnimating ? { duration: 0.8, ease: "easeOut" } : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   >
-                    <div className="w-12 h-8 bg-[#634133] rounded-[100%] border-2 border-[#4a3126] shadow-xl relative overflow-hidden">
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-1 bg-white/40 rounded-full"></div>
+                    <div className="relative w-16 h-10 group-hover:scale-110 transition-transform duration-300">
+                      {/* Football Body */}
+                      <div className="absolute inset-0 bg-[#634133] rounded-[100%] border-2 border-[#4a3126] shadow-2xl overflow-hidden">
+                        {/* Shading */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-black/20"></div>
+                        {/* Stripes */}
+                        <div className="absolute left-2 top-0 bottom-0 w-1.5 bg-white/20"></div>
+                        <div className="absolute right-2 top-0 bottom-0 w-1.5 bg-white/20"></div>
+                      </div>
+                      {/* Laces */}
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                        <div className="w-10 h-1 bg-white/60 rounded-full"></div>
+                        <div className="flex space-x-1.5 -mt-0.5">
+                          <div className="w-0.5 h-3 bg-white/60 rounded-full"></div>
+                          <div className="w-0.5 h-3 bg-white/60 rounded-full"></div>
+                          <div className="w-0.5 h-3 bg-white/60 rounded-full"></div>
+                          <div className="w-0.5 h-3 bg-white/60 rounded-full"></div>
+                        </div>
+                      </div>
                     </div>
                     {!isAnimating && <p className="absolute -top-12 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-brand-accent font-bold whitespace-nowrap">Click to Kick</p>}
                   </motion.div>
@@ -392,37 +415,66 @@ export const EntryExperience: React.FC<EntryExperienceProps> = ({
             </AnimatePresence>
 
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-4">
-              <button 
-                onClick={() => handleSportChange(null)}
-                className="text-[10px] uppercase tracking-widest text-brand-white/40 hover:text-brand-white transition-colors"
-              >
-                Change Sport
-              </button>
+              <Magnetic strength={0.2}>
+                <button 
+                  onClick={() => handleSportChange(null)}
+                  className="text-[10px] uppercase tracking-widest text-brand-white/40 hover:text-brand-white transition-colors"
+                >
+                  Change Sport
+                </button>
+              </Magnetic>
               
-              <motion.button
-                onClick={onEnter}
-                className="bg-brand-accent text-brand-black px-8 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-[0_0_20px_rgba(212,175,55,0.2)]"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-              >
-                Enter Site
-              </motion.button>
+              <Magnetic strength={0.4}>
+                <motion.button
+                  onClick={onEnter}
+                  className="bg-brand-accent text-brand-black px-8 py-3 rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-[0_0_20px_rgba(212,175,55,0.2)]"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1 }}
+                >
+                  Enter Site
+                </motion.button>
+              </Magnetic>
             </div>
           </div>
         )}
 
         {!selectedSport && (
-          <div className="flex flex-col items-center space-y-4">
+          <div className="flex flex-col items-center space-y-6">
             <motion.button
               onClick={onEnter}
-              className="group flex items-center space-x-2 text-brand-white/60 hover:text-brand-white transition-colors uppercase tracking-widest text-[10px] font-bold"
+              className="group flex items-center space-x-2 text-brand-white/60 hover:text-brand-accent transition-colors uppercase tracking-widest text-[10px] font-bold px-6 py-3 rounded-full border border-transparent hover:border-brand-accent/20 hover:bg-brand-accent/5"
               initial={{ opacity: 0 }}
               animate={{ opacity: showPrompt ? 1 : 0 }}
             >
               <span>Skip to Experience</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <motion.div
+                animate={{ x: [0, 4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </motion.div>
             </motion.button>
+
+            {onToggleCursor && (
+              <Magnetic strength={0.3}>
+                <motion.button
+                  onClick={onToggleCursor}
+                  className={cn(
+                    "w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 border",
+                    useCustomCursor 
+                      ? "text-brand-accent border-brand-accent/20 bg-brand-accent/5" 
+                      : "text-brand-white/40 border-white/5 hover:text-brand-white hover:border-white/10"
+                  )}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: showPrompt ? 1 : 0 }}
+                  transition={{ delay: 0.2 }}
+                  title={useCustomCursor ? "Switch to Regular Cursor" : "Switch to Sports Cursor"}
+                >
+                  <MousePointer2 className="w-4 h-4" />
+                </motion.button>
+              </Magnetic>
+            )}
           </div>
         )}
       </div>

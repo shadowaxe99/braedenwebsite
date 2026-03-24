@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Linkedin, Mail, Phone, Gamepad2 } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
+import { Menu, X, Linkedin, Mail, Phone, Gamepad2, MousePointer2 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { Magnetic } from './Magnetic';
 
 const navItems = [
   { name: 'About', href: '#about' },
@@ -14,11 +15,19 @@ const navItems = [
 
 interface NavbarProps {
   onGamesClick?: () => void;
+  useCustomCursor?: boolean;
+  onToggleCursor?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onGamesClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onGamesClick, useCustomCursor, onToggleCursor }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,34 +57,67 @@ export const Navbar: React.FC<NavbarProps> = ({ onGamesClick }) => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center space-x-10">
           {navItems.map((item) => (
-            <a 
-              key={item.name} 
-              href={item.href}
-              className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-white/60 hover:text-brand-white transition-colors relative group"
-            >
-              {item.name}
-              <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
-            </a>
+            <Magnetic key={item.name} strength={0.2}>
+              <motion.a 
+                href={item.href}
+                whileHover={{ scale: 1.1, y: -2 }}
+                className="text-[10px] uppercase tracking-[0.3em] font-bold text-brand-white/60 hover:text-brand-white transition-colors relative group"
+              >
+                {item.name}
+                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-brand-accent transition-all duration-300 group-hover:w-full"></span>
+              </motion.a>
+            </Magnetic>
           ))}
           
           {onGamesClick && (
-            <button 
-              onClick={onGamesClick}
-              className="flex items-center space-x-2 text-[10px] uppercase tracking-[0.3em] font-bold text-brand-accent hover:text-white transition-colors group"
-            >
-              <Gamepad2 className="w-3 h-3 group-hover:animate-bounce" />
-              <span>Games</span>
-            </button>
+            <Magnetic strength={0.3}>
+              <motion.button 
+                onClick={onGamesClick}
+                whileHover={{ scale: 1.1, y: -2 }}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-brand-accent hover:text-white hover:border-brand-accent/40 transition-all group"
+                title="Games"
+              >
+                <Gamepad2 className="w-4 h-4 group-hover:animate-bounce" />
+              </motion.button>
+            </Magnetic>
+          )}
+
+          {onToggleCursor && (
+            <Magnetic strength={0.3}>
+              <motion.button 
+                onClick={onToggleCursor}
+                whileHover={{ scale: 1.1, y: -2 }}
+                className={cn(
+                  "w-10 h-10 flex items-center justify-center rounded-full transition-all border group",
+                  useCustomCursor 
+                    ? "text-brand-accent border-brand-accent/40 bg-brand-accent/5" 
+                    : "text-brand-white/40 border-white/10 hover:text-brand-white hover:border-white/20 bg-white/5"
+                )}
+                title={useCustomCursor ? "Switch to Regular Cursor" : "Switch to Sports Cursor"}
+              >
+                <MousePointer2 className="w-4 h-4" />
+              </motion.button>
+            </Magnetic>
           )}
 
           <div className="h-4 w-[1px] bg-white/10 mx-4"></div>
           <div className="flex items-center space-x-4">
-            <a href="https://linkedin.com/in/Braeden-Boyles" target="_blank" rel="noopener noreferrer" className="text-brand-white/40 hover:text-brand-accent transition-colors">
+            <motion.a 
+              href="https://linkedin.com/in/Braeden-Boyles" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              whileHover={{ scale: 1.2, rotate: 5 }}
+              className="text-brand-white/40 hover:text-brand-accent transition-colors"
+            >
               <Linkedin className="w-4 h-4" />
-            </a>
-            <a href="mailto:Braedenboyles1@gmail.com" className="text-brand-white/40 hover:text-brand-accent transition-colors">
+            </motion.a>
+            <motion.a 
+              href="mailto:Braedenboyles1@gmail.com" 
+              whileHover={{ scale: 1.2, rotate: -5 }}
+              className="text-brand-white/40 hover:text-brand-accent transition-colors"
+            >
               <Mail className="w-4 h-4" />
-            </a>
+            </motion.a>
           </div>
         </div>
 
@@ -122,6 +164,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onGamesClick }) => {
                 </button>
               )}
 
+              {onToggleCursor && (
+                <button 
+                  onClick={() => {
+                    onToggleCursor();
+                  }}
+                  className={cn(
+                    "flex items-center space-x-4 text-2xl font-display font-bold uppercase tracking-widest",
+                    useCustomCursor ? "text-brand-accent" : "text-brand-white/60"
+                  )}
+                >
+                  <MousePointer2 className="w-6 h-6" />
+                  <span>{useCustomCursor ? "Custom Cursor" : "Regular Cursor"}</span>
+                </button>
+              )}
+
               <div className="flex items-center space-x-6 pt-6 border-t border-white/10">
                 <a href="https://linkedin.com/in/Braeden-Boyles" target="_blank" rel="noopener noreferrer" className="text-brand-white/60 hover:text-brand-accent">
                   <Linkedin className="w-6 h-6" />
@@ -137,6 +194,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onGamesClick }) => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-[1px] bg-brand-accent origin-left"
+        style={{ scaleX }}
+      />
     </nav>
   );
 };
