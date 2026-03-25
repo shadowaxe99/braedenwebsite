@@ -7,6 +7,7 @@ import { Hero } from './components/Hero';
 import { About, Journey } from './components/Journey';
 import { Experience, QBMindModule, LensGrid } from './components/Experience';
 import { Vision, Writing, Contact } from './components/Vision';
+import { Press } from './components/Press';
 
 const CustomCursor = ({ isActive }: { isActive: boolean }) => {
   const [isHovering, setIsHovering] = useState(false);
@@ -132,6 +133,7 @@ export default function App() {
     <QBMindModule key="qb" />,
     <Vision key="vision" />,
     <Writing key="writing" />,
+    <Press key="press" />,
     <Contact key="contact" />,
   ];
 
