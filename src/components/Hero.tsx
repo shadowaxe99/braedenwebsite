@@ -23,7 +23,7 @@ export const Hero: React.FC = () => {
               <span className="inline-block px-4 py-1 rounded-full border border-brand-accent/20 bg-brand-accent/5 text-brand-accent text-[10px] font-bold uppercase tracking-[0.4em] mb-4">
                 Future Sports Lawyer & Agent
               </span>
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black tracking-tighter uppercase italic leading-[0.9]">
+              <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-display font-black tracking-tighter uppercase italic leading-[0.9]">
                 Braeden <br />
                 <span className="text-gradient">Boyles</span>
               </h1>
@@ -73,6 +73,8 @@ export const Hero: React.FC = () => {
                 alt="Braeden Boyles Professional Portrait" 
                 className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"
+                fetchPriority="high"
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-transparent to-transparent opacity-60"></div>
               <div className="absolute bottom-6 left-6 right-6 p-6 glass rounded-xl role-card-hover">
@@ -86,7 +88,7 @@ export const Hero: React.FC = () => {
 
         {/* Credibility Band */}
         <motion.div 
-          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-white/10"
+          className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 pt-12 border-t border-white/10"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}

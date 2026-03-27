@@ -215,6 +215,7 @@ export const About: React.FC = () => {
                 alt="Braeden Boyles Action Shot" 
                 className="rounded-xl grayscale hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
                 referrerPolicy="no-referrer"
+                loading="lazy"
               />
               <div className="absolute bottom-12 right-12 flex flex-col items-end space-y-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                 <div className="bg-brand-black/80 backdrop-blur-md px-6 py-3 rounded-full border border-white/10">

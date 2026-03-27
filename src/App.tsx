@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AnimatePresence, motion, useSpring } from 'motion/react';
 import { Analytics } from '@vercel/analytics/react';
 import { EntryExperience } from './components/EntryExperience';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { About, Journey } from './components/Journey';
-import { Experience, QBMindModule, LensGrid } from './components/Experience';
-import { Vision, Writing, Contact } from './components/Vision';
-import { Press } from './components/Press';
+
+// Lazy load components for performance
+const About = lazy(() => import('./components/Journey').then(module => ({ default: module.About })));
+const Journey = lazy(() => import('./components/Journey').then(module => ({ default: module.Journey })));
+const Experience = lazy(() => import('./components/Experience').then(module => ({ default: module.Experience })));
+const QBMindModule = lazy(() => import('./components/Experience').then(module => ({ default: module.QBMindModule })));
+const LensGrid = lazy(() => import('./components/Experience').then(module => ({ default: module.LensGrid })));
+const Vision = lazy(() => import('./components/Vision').then(module => ({ default: module.Vision })));
+const Writing = lazy(() => import('./components/Vision').then(module => ({ default: module.Writing })));
+const Contact = lazy(() => import('./components/Vision').then(module => ({ default: module.Contact })));
+const Press = lazy(() => import('./components/Press').then(module => ({ default: module.Press })));
 
 const CustomCursor = ({ isActive }: { isActive: boolean }) => {
   const [isHovering, setIsHovering] = useState(false);
@@ -165,17 +172,19 @@ export default function App() {
               useCustomCursor={useCustomCursor}
               onToggleCursor={() => setUseCustomCursor(!useCustomCursor)}
             />
-            {sections.map((section, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-              >
-                {section}
-              </motion.div>
-            ))}
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-brand-accent text-sm uppercase tracking-widest">Loading...</div>}>
+              {sections.map((section, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, delay: 0.1 }}
+                >
+                  {section}
+                </motion.div>
+              ))}
+            </Suspense>
           </motion.main>
         )}
       </AnimatePresence>
