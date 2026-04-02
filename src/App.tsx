@@ -18,13 +18,14 @@ const Press = lazy(() => import('./components/Press').then(module => ({ default:
 
 const CustomCursor = ({ isActive }: { isActive: boolean }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
   const cursorX = useSpring(0, { stiffness: 1000, damping: 40 });
   const cursorY = useSpring(0, { stiffness: 1000, damping: 40 });
 
   useEffect(() => {
-    if (!isActive) return;
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) return;
+    setIsTouch(isTouchDevice);
+    if (!isActive || isTouchDevice) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX - 16); // 16 is half of w-8 (32px)
@@ -39,7 +40,7 @@ const CustomCursor = ({ isActive }: { isActive: boolean }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [cursorX, cursorY, isActive]);
 
-  if (!isActive) return null;
+  if (!isActive || isTouch) return null;
 
   return (
     <motion.div 
@@ -102,7 +103,7 @@ const CustomCursor = ({ isActive }: { isActive: boolean }) => {
 
 export default function App() {
   const [hasEntered, setHasEntered] = useState(false);
-  const [useCustomCursor, setUseCustomCursor] = useState(true);
+  const [useCustomCursor, setUseCustomCursor] = useState(false);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
 

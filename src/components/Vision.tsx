@@ -381,13 +381,13 @@ export const Contact: React.FC = () => {
               </p>
 
               <div className="space-y-6 pt-8">
-                <a href="mailto:Braedenboyles1@gmail.com" className="flex items-center space-x-4 group">
+                <a href="mailto:boylesb@duq.edu" className="flex items-center space-x-4 group">
                   <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-brand-black group-hover:scale-110 transition-all duration-500">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-[10px] font-bold uppercase tracking-widest text-brand-white/40 mb-1">Email</p>
-                    <p className="text-lg font-display font-bold uppercase tracking-tight group-hover:text-brand-accent transition-colors">Braedenboyles1@gmail.com</p>
+                    <p className="text-lg font-display font-bold uppercase tracking-tight group-hover:text-brand-accent transition-colors">boylesb@duq.edu</p>
                   </div>
                 </a>
                 <a href="tel:9495008929" className="flex items-center space-x-4 group">

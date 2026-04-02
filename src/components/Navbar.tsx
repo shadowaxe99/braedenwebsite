@@ -113,7 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onGamesClick, useCustomCursor, o
               <Linkedin className="w-4 h-4" />
             </motion.a>
             <motion.a 
-              href="mailto:Braedenboyles1@gmail.com" 
+              href="mailto:boylesb@duq.edu" 
               whileHover={{ scale: 1.2, rotate: -5 }}
               className="text-brand-white/40 hover:text-brand-accent transition-colors"
             >
@@ -171,7 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onGamesClick, useCustomCursor, o
                     onToggleCursor();
                   }}
                   className={cn(
-                    "flex items-center space-x-4 text-2xl font-display font-bold uppercase tracking-widest",
+                    "hidden md:flex items-center space-x-4 text-2xl font-display font-bold uppercase tracking-widest",
                     useCustomCursor ? "text-brand-accent" : "text-brand-white/60"
                   )}
                 >
@@ -184,7 +184,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onGamesClick, useCustomCursor, o
                 <a href="https://linkedin.com/in/Braeden-Boyles" target="_blank" rel="noopener noreferrer" className="text-brand-white/60 hover:text-brand-accent">
                   <Linkedin className="w-6 h-6" />
                 </a>
-                <a href="mailto:Braedenboyles1@gmail.com" className="text-brand-white/60 hover:text-brand-accent">
+                <a href="mailto:boylesb@duq.edu" className="text-brand-white/60 hover:text-brand-accent">
                   <Mail className="w-6 h-6" />
                 </a>
                 <a href="tel:9495008929" className="text-brand-white/60 hover:text-brand-accent">
